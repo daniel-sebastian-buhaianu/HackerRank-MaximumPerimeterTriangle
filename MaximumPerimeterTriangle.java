@@ -10,42 +10,21 @@ import java.util.stream.*;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
-class Result {
-
-    /*
-     * Complete the 'maximumPerimeterTriangle' function below.
-     *
-     * The function is expected to return an INTEGER_ARRAY.
-     * The function accepts INTEGER_ARRAY sticks as parameter.
-     */
-     
-    public static boolean isNonDegenerateTriangle(int a, int b, int c) {
-        return (a + b > c) && (a + c > b) && (b + c > a);
-    }
-
-    public static List<Integer> maximumPerimeterTriangle(List<Integer> sticks) {
-        List<Integer> sides = new ArrayList<>();
-        long maxPerimeter = 0;
-        int n = sticks.size();
-        sticks.sort(null);
-        for (int i = n-1; i >= 2; i--) {
-            int side3 = sticks.get(i);
-            int side2 = sticks.get(i-1);
-            int side1 = sticks.get(i-2);
-            long perimeter = (long) side1 + side2 + side3;
-            if (isNonDegenerateTriangle(side1, side2, side3)
-                && perimeter > maxPerimeter) {
-                    sides.clear();
-                    sides.add(side1);
-                    sides.add(side2);
-                    sides.add(side3);
-                    maxPerimeter = perimeter;
-                }
+class Result
+{
+    public static List<Integer> maximumPerimeterTriangle(List<Integer> sticks)
+    {
+        Collections.sort(sticks, Collections.reverseOrder());
+        
+        for (int i = 0, n = sticks.size(); i < n - 2; i++)
+        {
+            if (sticks.get(i + 1) + sticks.get(i + 2) > sticks.get(i))
+            {
+                return Arrays.asList(sticks.get(i + 2), sticks.get(i + 1), sticks.get(i));
+            }
         }
-        if (sides.isEmpty()) {
-            sides.add(-1);
-        }
-        return sides;
+        
+        return Arrays.asList(-1);
     }
 }
 
